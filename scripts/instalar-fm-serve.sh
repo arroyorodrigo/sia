@@ -2,8 +2,13 @@
 # Deja "fm serve" corriendo siempre en segundo plano (se inicia solo al encender el Mac).
 # Uso:  zsh instalar-fm-serve.sh        Para desinstalar:  zsh instalar-fm-serve.sh --quitar
 
-LABEL="cl.rarroyo.fm-serve"
+LABEL="arroyorodrigo.fm-serve"
+OLD_LABEL="cl.rarroyo.fm-serve"   # nombre usado en versiones anteriores
 PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
+
+# Quitar la versión anterior, si existe (evita dos servidores en el mismo puerto)
+launchctl bootout "gui/$(id -u)/$OLD_LABEL" 2>/dev/null
+rm -f "$HOME/Library/LaunchAgents/$OLD_LABEL.plist"
 
 if [[ "$1" == "--quitar" ]]; then
   launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null
